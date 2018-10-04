@@ -107,11 +107,13 @@ random_search_kaggle = RandomizedSearchCV(pipe_kaggle, scoring=technical_lift_sc
 model = random_search.fit(train_df, train_df['TARGET']).best_estimator_
 model_k = random_search_kaggle.fit(train_df, train_df['TARGET']).best_estimator_
 
+# boostrap f1 score
 B_sample = 1000
 m_f1, m_acc = boostrap_measure(test_df, model, B_sample)
 m_f1_k, m_acc_k = boostrap_measure(test_df, model_k, B_sample)
 norm_stat = np.abs(m_f1_k[0]-m_f1[0])/np.sqrt((m_f1[1] + m_f1_k[1])/B_sample)
 
+# statistical significance in f1 score improvement
 print(m_f1)
 print(m_f1_k)
 print('f1 improved by:', (m_f1_k[0]-m_f1[0])/m_f1[0])
